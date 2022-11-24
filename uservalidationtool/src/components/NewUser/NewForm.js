@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useRef} from "react";
 import './NewForm.css';
 
 const NewForm = (props) => {
   const [username, setusername] = useState('');
   const [age, setage] = useState('');
+ const age1 =  useRef();
 
   const onSubmitHandler=(event) =>{
     event.preventDefault();
@@ -20,6 +21,8 @@ const NewForm = (props) => {
   }
   const addAgeHandler =(event) =>{
     setage(event.target.value);
+    console.log(age1.current.value);
+    
   }
   return (
     <div>
@@ -31,7 +34,7 @@ const NewForm = (props) => {
           </div>
           <div className="user__control">
             <label>Age (Years)</label>
-            <input type="number" name="age" onChange={addAgeHandler} value={age}></input>
+            <input type="number" name="age" onChange={addAgeHandler} value={age} ref={age1}></input>
           </div>
         </div>
         <div className="user__actions">
