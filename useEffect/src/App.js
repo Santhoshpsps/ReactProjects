@@ -6,12 +6,13 @@ import MainHeader from './components/MainHeader/MainHeader';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //localStorage -> Browser's storage(cookie)
   useEffect(()=>{
     const Logged_in_cookie = localStorage.getItem('Logged_in');
     if(Logged_in_cookie === '1'){
       setIsLoggedIn(true);
     }
-  },[isLoggedIn])
+  },[]);
   
 
   
@@ -24,6 +25,7 @@ function App() {
   };
 
   const logoutHandler = () => {
+    localStorage.removeItem('Logged_in');
     setIsLoggedIn(false);
   };
 
