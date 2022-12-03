@@ -6,13 +6,13 @@ import { useState } from "react";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const fetchMoviesHandler =()=>{
+   async function fetchMoviesHandler(){
     
-  fetch("https://swapi.py4e.com/api/films")
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
+  const response= await fetch("https://swapi.py4e.com/api/films");
+
+  const data =await response.json();
+  
+
     const transformedData = data.results.map((movie) => {
       return {
         id: movie.episode_id,
@@ -23,7 +23,7 @@ function App() {
       
     });
     setMovies(transformedData);
-  });
+
   }
 
   return (
