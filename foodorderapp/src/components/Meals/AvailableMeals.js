@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../UI/Card";
 import classes from "./AvailableMeals.module.css";
 import MealItem from "./MealItem/MealItem";
@@ -31,17 +31,33 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = (props) => {
+  useEffect(() => {
+    const fetchmealsData = async () => {
+      const response = await fetch(
+        "https://react-demo-4c8e2-default-rtdb.firebaseio.com//meals.json"
+      );
+      const data = await response.json();
+      console.log(data);
+    };
+    fetchmealsData();
+  }, []);
+
   const mealsList = DUMMY_MEALS.map((meal) => {
     return (
-           <MealItem  id={meal.id} key={meal.id} name={meal.name} desc={meal.description} price={meal.price}></MealItem>
+      <MealItem
+        id={meal.id}
+        key={meal.id}
+        name={meal.name}
+        desc={meal.description}
+        price={meal.price}
+      ></MealItem>
     );
   });
   return (
     <section className={classes.meals}>
-    <Card>
-    <ul>{mealsList}</ul>
-    </Card>
-      
+      <Card>
+        <ul>{mealsList}</ul>
+      </Card>
     </section>
   );
 };
