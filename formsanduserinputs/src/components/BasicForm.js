@@ -1,26 +1,33 @@
-
 import useNewInput from "../hooks/use-newInput";
 
 const BasicForm = (props) => {
   const {
     value: firstName,
     isValid: firstNameIsValid,
-    inputValid: inputIsValid,
+    inputValid: firstinputIsValid,
     changeHandler: firstNameChangeHandler,
     BlurHandler: firstNameBlurHandler,
-    reset:resetFirstName
+    reset: resetFirstName,
+  } = useNewInput((value) => value.trim() !== "");
 
-  }= useNewInput((value) => value.trim() !== "");
+  const {
+    value: lastName,
+    isValid: lastNameIsValid,
+    inputValid: lastinputIsValid,
+    changeHandler: lastNameChangeHandler,
+    BlurHandler: lastNameBlurHandler,
+    reset: resetLastName,
+  } = useNewInput((value) => value.trim() !== "");
 
   let basicFormIsValid = false;
-  if(firstNameIsValid)
-  basicFormIsValid=true;
+  if (firstNameIsValid && lastNameIsValid) basicFormIsValid = true;
   const submitHandler = (event) => {
     event.preventDefault();
     console.log(firstName);
     resetFirstName();
+    resetLastName();
   };
-  const nameInputClasses = !inputIsValid
+  const nameInputClasses = !firstinputIsValid
     ? "form-control"
     : "form-control invalid";
   return (
@@ -35,14 +42,22 @@ const BasicForm = (props) => {
             onBlur={firstNameBlurHandler}
             value={firstName}
           />
-          {inputIsValid && (
+          {firstinputIsValid && (
             <p className="error-text">PLease enter a valid name</p>
           )}
         </div>
 
-        <div className="form-control">
+        <div className={nameInputClasses}>
           <label htmlFor="name">Last Name</label>
-          <input type="text" id="name" />
+          <input
+            type="text"
+            id="name"
+            onChange={lastNameChangeHandler}
+            onBlur={lastNameBlurHandler}
+            value={lastName}
+          />
+          {lastinputIsValid && (<p className="error-text">PLease enter a valid name</p>)
+          }
         </div>
       </div>
       <div className="form-control">
