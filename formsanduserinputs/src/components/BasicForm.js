@@ -1,24 +1,30 @@
-import { useState } from "react";
+
+import useNewInput from "../hooks/use-newInput";
 
 const BasicForm = (props) => {
-  const [firstName, setFirstName] = useState("");
-  const [firstNameisBlur, setFirstNameIsBlured] = useState(false);
+  const {
+    value: firstName,
+    isValid: firstNameIsValid,
+    inputValid: inputIsValid,
+    changeHandler: firstNameChangeHandler,
+    BlurHandler: firstNameBlurHandler,
+    reset:resetFirstName
 
-  const firstNameIsValid = firstName.trim() !== "";
-  const inputIsValid = !firstNameIsValid && firstNameisBlur
-  
-  const firstNameChangeHandler = (event) => {
-    setFirstName(event.target.value);
-  };
-  const firstNameBlurHandler = () => {
-    setFirstNameIsBlured(true);
-  };
+  }= useNewInput((value) => value.trim() !== "");
 
+  let basicFormIsValid = false;
+  if(firstNameIsValid)
+  basicFormIsValid=true;
+  const submitHandler = (event) => {
+    event.preventDefault();
+    console.log(firstName);
+    resetFirstName();
+  };
   const nameInputClasses = !inputIsValid
     ? "form-control"
     : "form-control invalid";
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className="control-group">
         <div className={nameInputClasses}>
           <label htmlFor="name">First Name</label>
@@ -29,9 +35,11 @@ const BasicForm = (props) => {
             onBlur={firstNameBlurHandler}
             value={firstName}
           />
-           {inputIsValid && <p className="error-text">PLease enter a valid name</p>}
+          {inputIsValid && (
+            <p className="error-text">PLease enter a valid name</p>
+          )}
         </div>
-       
+
         <div className="form-control">
           <label htmlFor="name">Last Name</label>
           <input type="text" id="name" />
@@ -42,7 +50,7 @@ const BasicForm = (props) => {
         <input type="text" id="name" />
       </div>
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!basicFormIsValid}>Submit</button>
       </div>
     </form>
   );
