@@ -10,7 +10,10 @@
   margin: 0;
   padding: 0;
 }
-
+.httpError{
+  text-align: center;
+  color: red;
+}
 .mealsLoading{
   text-align: center;
   color: white;
