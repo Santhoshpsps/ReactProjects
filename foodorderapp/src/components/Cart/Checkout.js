@@ -5,7 +5,7 @@ const isEmpty=(value)=> value.trim() ==='';
 const isFiveChar =(value)=> value.trim().length === 5;
 
 const Checkout = (props) => {
-    useState({
+    const [formInputValidity, setFormINputValidity]= useState({
         name: true,
         street: true,
         postalCode: true,
@@ -28,6 +28,12 @@ const Checkout = (props) => {
     const postalCodeIsValid = isFiveChar(enteredpostalCode);
     const cityIsValid = !isEmpty(enteredCity);
 
+    setFormINputValidity({
+      name: nameIsValid,
+      street: strretIsValid,
+      postalCode:postalCodeIsValid,
+      city:cityIsValid
+    });
     const formValid = (nameIsValid && strretIsValid && postalCodeIsValid && cityIsValid);
 
     if(!formValid){
@@ -36,24 +42,32 @@ const Checkout = (props) => {
 
 
   };
+  const nameControlClasses = `${classes.control} ${formInputValidity.name ? '': classes.invalid}`
+  const streetControlClasses = `${classes.control} ${formInputValidity.street ? '': classes.invalid}`
+  const postalCodeControlClasses = `${classes.control} ${formInputValidity.postalCode ? '': classes.invalid}`
+  const cityControlClasses = `${classes.control} ${formInputValidity.city ? '': classes.invalid}`
 
   return (
     <form className={classes.form} onSubmit={confirmHandler}>
-      <div className={classes.control}>
+      <div className={nameControlClasses}>
         <label htmlFor='name'>Your Name</label>
         <input type='text' id='name' ref={nameInputRef} />
+        {!formInputValidity.name && <p>InValid Entry!</p>}
       </div>
-      <div className={classes.control}>
+      <div className={streetControlClasses}>
         <label htmlFor='street'>Street</label>
         <input type='text' id='street' ref={streetInputRef}/>
+        {!formInputValidity.street && <p>InValid Entry!</p>}
       </div>
-      <div className={classes.control}>
+      <div className={postalCodeControlClasses}>
         <label htmlFor='postal'>Postal Code</label>
         <input type='text' id='postal' ref={postalCodeInputRef}/>
+        {!formInputValidity.postalCode && <p>InValid Entry!</p>}
       </div>
-      <div className={classes.control}>
+      <div className={cityControlClasses}>
         <label htmlFor='city'>City</label>
         <input type='text' id='city' ref={cityInputRef}/>
+        {!formInputValidity.city && <p>InValid Entry!</p>}
       </div>
       <div className={classes.actions}>
         <button type='button' onClick={props.onCancel}>
