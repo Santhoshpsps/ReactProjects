@@ -28,6 +28,13 @@ const Checkout = (props) => {
     const postalCodeIsValid = isFiveChar(enteredpostalCode);
     const cityIsValid = !isEmpty(enteredCity);
 
+    props.onConfirm({
+      name:enteredName,
+      street:enteredStreet,
+      postalCode: enteredpostalCode,
+      city: enteredCity
+    })
+
     setFormINputValidity({
       name: nameIsValid,
       street: strretIsValid,
